@@ -9,6 +9,7 @@ import com.amadeus.exceptions.ServerException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -142,7 +143,7 @@ public class Response {
       BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
       StringBuffer body = new StringBuffer();
       String inputLine;
-      while ((inputLine = bufferedReader.readLine()) != null) {
+      while ((inputLine = BoundedLineReader.readLine(bufferedReader, 5_000_000)) != null) {
         body.append(inputLine);
       }
       bufferedReader.close();
